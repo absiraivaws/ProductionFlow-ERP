@@ -41,7 +41,7 @@ export default function GeneralLedgerPage() {
             .filter(e => !selectedAccount || e.accountId === selectedAccount)
             .map(e => ({
                 date: j.date,
-                journalNo: j.journalNo,
+                journalNo: j.voucherNo,
                 description: j.description,
                 accountId: e.accountId,
                 accountName: e.accountName,

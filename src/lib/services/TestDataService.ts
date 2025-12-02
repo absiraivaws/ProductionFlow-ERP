@@ -55,16 +55,16 @@ export const TestDataService = {
 
         const items = [
             // Raw Materials
-            { name: "Wheat Flour", sku: "RM-001", type: "RAW_MATERIAL", categoryId: "cat-rm", unit: "kg", costPrice: 2.50, sellingPrice: 0, currentStock: 0, minimumStock: 100, isActive: true },
-            { name: "Sugar", sku: "RM-002", type: "RAW_MATERIAL", categoryId: "cat-rm", unit: "kg", costPrice: 1.80, sellingPrice: 0, currentStock: 0, minimumStock: 50, isActive: true },
-            { name: "Butter", sku: "RM-003", type: "RAW_MATERIAL", categoryId: "cat-rm", unit: "kg", costPrice: 8.50, sellingPrice: 0, currentStock: 0, minimumStock: 30, isActive: true },
-            { name: "Eggs", sku: "RM-004", type: "RAW_MATERIAL", categoryId: "cat-rm", unit: "dozen", costPrice: 3.20, sellingPrice: 0, currentStock: 0, minimumStock: 20, isActive: true },
-            { name: "Vanilla Extract", sku: "RM-005", type: "RAW_MATERIAL", categoryId: "cat-rm", unit: "ltr", costPrice: 15.00, sellingPrice: 0, currentStock: 0, minimumStock: 5, isActive: true },
+            { name: "Wheat Flour", sku: "RM-001", type: "RAW_MATERIAL" as const, categoryId: "cat-rm", unit: "kg", costPrice: 2.50, sellingPrice: 0, currentStock: 0, minimumStock: 100, isActive: true },
+            { name: "Sugar", sku: "RM-002", type: "RAW_MATERIAL" as const, categoryId: "cat-rm", unit: "kg", costPrice: 1.80, sellingPrice: 0, currentStock: 0, minimumStock: 50, isActive: true },
+            { name: "Butter", sku: "RM-003", type: "RAW_MATERIAL" as const, categoryId: "cat-rm", unit: "kg", costPrice: 8.50, sellingPrice: 0, currentStock: 0, minimumStock: 30, isActive: true },
+            { name: "Eggs", sku: "RM-004", type: "RAW_MATERIAL" as const, categoryId: "cat-rm", unit: "dozen", costPrice: 3.20, sellingPrice: 0, currentStock: 0, minimumStock: 20, isActive: true },
+            { name: "Vanilla Extract", sku: "RM-005", type: "RAW_MATERIAL" as const, categoryId: "cat-rm", unit: "ltr", costPrice: 15.00, sellingPrice: 0, currentStock: 0, minimumStock: 5, isActive: true },
 
             // Finished Goods
-            { name: "Chocolate Cake", sku: "FG-001", type: "FINISHED_GOOD", categoryId: "cat-fg", unit: "pcs", costPrice: 0, sellingPrice: 25.00, currentStock: 0, minimumStock: 10, isActive: true },
-            { name: "Vanilla Cupcakes (6-pack)", sku: "FG-002", type: "FINISHED_GOOD", categoryId: "cat-fg", unit: "pack", costPrice: 0, sellingPrice: 12.00, currentStock: 0, minimumStock: 15, isActive: true },
-            { name: "Cookies Assortment", sku: "FG-003", type: "FINISHED_GOOD", categoryId: "cat-fg", unit: "box", costPrice: 0, sellingPrice: 18.00, currentStock: 0, minimumStock: 20, isActive: true },
+            { name: "Chocolate Cake", sku: "FG-001", type: "FINISHED_GOOD" as const, categoryId: "cat-fg", unit: "pcs", costPrice: 0, sellingPrice: 25.00, currentStock: 0, minimumStock: 10, isActive: true },
+            { name: "Vanilla Cupcakes (6-pack)", sku: "FG-002", type: "FINISHED_GOOD" as const, categoryId: "cat-fg", unit: "pack", costPrice: 0, sellingPrice: 12.00, currentStock: 0, minimumStock: 15, isActive: true },
+            { name: "Cookies Assortment", sku: "FG-003", type: "FINISHED_GOOD" as const, categoryId: "cat-fg", unit: "box", costPrice: 0, sellingPrice: 18.00, currentStock: 0, minimumStock: 20, isActive: true },
 
             // Packaging
             { name: "Cake Box (Large)", sku: "PKG-001", type: "PACKAGING", categoryId: "cat-pkg", unit: "pcs", costPrice: 0.80, sellingPrice: 0, currentStock: 0, minimumStock: 50, isActive: true },
@@ -76,7 +76,6 @@ export const TestDataService = {
                 ...item,
                 openingStockQty: 0,
                 openingStockValue: 0,
-                createdBy: "system",
             });
         }
 
@@ -99,8 +98,8 @@ export const TestDataService = {
 
         for (const supplier of suppliers) {
             await SupplierService.createSupplier({
-                ...supplier,
                 createdBy: "system",
+                ...supplier,
             });
         }
 
@@ -123,8 +122,8 @@ export const TestDataService = {
 
         for (const customer of customers) {
             await CustomerService.createCustomer({
-                ...customer,
                 createdBy: "system",
+                ...customer,
             });
         }
 
@@ -167,7 +166,6 @@ export const TestDataService = {
                     { rmItemId: butter.id, rmItemName: butter.name, qtyPerUnit: 0.2, unit: "kg" },
                     { rmItemId: eggs.id, rmItemName: eggs.name, qtyPerUnit: 0.25, unit: "dozen" },
                 ],
-                createdBy: "system",
             },
             {
                 fgItemId: cupcakes.id,
@@ -181,7 +179,6 @@ export const TestDataService = {
                     { rmItemId: butter.id, rmItemName: butter.name, qtyPerUnit: 0.15, unit: "kg" },
                     { rmItemId: vanilla.id, rmItemName: vanilla.name, qtyPerUnit: 0.02, unit: "ltr" },
                 ],
-                createdBy: "system",
             },
             {
                 fgItemId: cookies.id,
@@ -194,12 +191,12 @@ export const TestDataService = {
                     { rmItemId: sugar.id, rmItemName: sugar.name, qtyPerUnit: 0.25, unit: "kg" },
                     { rmItemId: butter.id, rmItemName: butter.name, qtyPerUnit: 0.18, unit: "kg" },
                 ],
-                createdBy: "system",
             },
         ];
 
         for (const bom of boms) {
-            await BOMService.createBOM(bom);
+            const bomWithCreator = { ...bom, createdBy: "system" };
+            await BOMService.createBOM(bomWithCreator);
         }
 
         console.log(`✓ Created ${boms.length} BOMs`);
@@ -240,7 +237,6 @@ export const TestDataService = {
                     { itemId: sugar.id, itemName: sugar.name, locationId: "loc-main", locationName: "Main Store", qty: 50, price: 1.80, taxRate: 0.05, lineTotal: 90, receivedQty: 0, unit: "kg" },
                 ],
                 remarks: "Monthly stock replenishment",
-                createdBy: "system",
             },
             {
                 supplierId: suppliers[2].id,
@@ -255,12 +251,16 @@ export const TestDataService = {
                     { itemId: butter.id, itemName: butter.name, locationId: "loc-main", locationName: "Main Store", qty: 30, price: 8.50, taxRate: 0.05, lineTotal: 255, receivedQty: 0, unit: "kg" },
                 ],
                 remarks: "Dairy products order",
-                createdBy: "system",
             },
         ];
 
         for (const po of pos) {
-            await PurchaseOrderService.createPurchaseOrder(po);
+            await PurchaseOrderService.createPurchaseOrder({
+                ...po,
+                currency: "USD",
+                exchangeRate: 1.0,
+                createdBy: "system",
+            });
         }
 
         console.log(`✓ Created ${pos.length} purchase orders`);
@@ -302,7 +302,6 @@ export const TestDataService = {
                     { itemId: cupcakes.id, itemName: cupcakes.name, qty: 10, price: 12.00, taxRate: 0.05, lineTotal: 120, deliveredQty: 0, unit: "pack" },
                 ],
                 remarks: "Weekly order for cafe",
-                createdBy: "system",
             },
             {
                 customerId: customers[3].id,
@@ -318,12 +317,16 @@ export const TestDataService = {
                     { itemId: cookies.id, itemName: cookies.name, qty: 20, price: 18.00, taxRate: 0.05, lineTotal: 360, deliveredQty: 0, unit: "box" },
                 ],
                 remarks: "Corporate event order",
-                createdBy: "system",
             },
         ];
 
         for (const so of sos) {
-            await SalesOrderService.createSalesOrder(so);
+            await SalesOrderService.createSalesOrder({
+                ...so,
+                currency: "USD",
+                exchangeRate: 1.0,
+                createdBy: "system",
+            });
         }
 
         console.log(`✓ Created ${sos.length} sales orders`);
@@ -351,33 +354,32 @@ export const TestDataService = {
             {
                 fgItemId: cake.id,
                 fgItemName: cake.name,
-                targetQty: 10,
-                productionDate: "2025-11-15",
+                plannedQty: 10,
+                startDate: "2025-11-15",
                 status: "DRAFT" as const,
                 sourceLocationId: "loc-production",
                 sourceLocationName: "Production Store",
-                targetLocationId: "loc-fg",
-                targetLocationName: "Finished Goods Store",
+                outputLocationId: "loc-fg",
+                outputLocationName: "Finished Goods Store",
                 remarks: "Weekly production batch",
-                createdBy: "system",
             },
             {
                 fgItemId: cupcakes.id,
                 fgItemName: cupcakes.name,
-                targetQty: 20,
-                productionDate: "2025-11-16",
+                plannedQty: 20,
+                startDate: "2025-11-16",
                 status: "DRAFT" as const,
                 sourceLocationId: "loc-production",
                 sourceLocationName: "Production Store",
-                targetLocationId: "loc-fg",
-                targetLocationName: "Finished Goods Store",
+                outputLocationId: "loc-fg",
+                outputLocationName: "Finished Goods Store",
                 remarks: "High demand item",
-                createdBy: "system",
             },
         ];
 
         for (const po of productionOrders) {
-            await ProductionOrderService.createProductionOrder(po);
+            const poWithCreator = { ...po, createdBy: "system" };
+            await ProductionOrderService.createProductionOrder(poWithCreator);
         }
 
         console.log(`✓ Created ${productionOrders.length} production orders`);

@@ -17,8 +17,8 @@ export default function CustomerReceiptsPage() {
     const [formData, setFormData] = useState({
         customerId: "",
         customerName: "",
-        receiptDate: new Date().toISOString().split('T')[0],
-        paymentMethod: "BANK" as "CASH" | "BANK" | "CHEQUE",
+        paymentDate: new Date().toISOString().split('T')[0],
+        paymentMode: "BANK" as "CASH" | "BANK",
         referenceNo: "",
         amount: 0,
         remarks: "",
@@ -32,7 +32,7 @@ export default function CustomerReceiptsPage() {
     const loadData = async () => {
         setLoading(true);
         const [receiptsData, customersData] = await Promise.all([
-            CustomerReceiptService.getReceipts(),
+            CustomerReceiptService.getCustomerReceipts(),
             CustomerService.getCustomers(),
         ]);
         setReceipts(receiptsData);
@@ -41,9 +41,9 @@ export default function CustomerReceiptsPage() {
     };
 
     const loadCustomerInvoices = async (customerId: string) => {
-        const allInvoices = await SalesInvoiceService.getInvoices();
+        const allInvoices = await SalesInvoiceService.getSalesInvoices();
         const customerInvoices = allInvoices.filter(
-            inv => inv.customerId === customerId && inv.status !== "PAID"
+            (inv: any) => inv.customerId === customerId && inv.status !== "PAID"
         );
         setInvoices(customerInvoices);
     };
@@ -92,14 +92,14 @@ export default function CustomerReceiptsPage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         if (getTotalAllocated() > formData.amount) {
             alert("Total allocated amount cannot exceed receipt amount!");
             return;
         }
 
         try {
-            await CustomerReceiptService.createReceipt({
+            await CustomerReceiptService.createCustomerReceipt({
                 ...formData,
                 createdBy: "admin",
             });
@@ -116,7 +116,7 @@ export default function CustomerReceiptsPage() {
             customerId: "",
             customerName: "",
             receiptDate: new Date().toISOString().split('T')[0],
-            paymentMethod: "BANK",
+            paymentMode: "BANK",
             referenceNo: "",
             amount: 0,
             remarks: "",
@@ -168,8 +168,8 @@ export default function CustomerReceiptsPage() {
                                     type="date"
                                     required
                                     className="w-full px-3 py-2 border border-slate-300 rounded-lg"
-                                    value={formData.receiptDate}
-                                    onChange={(e) => setFormData({ ...formData, receiptDate: e.target.value })}
+                                    value={formData.paymentDate}
+                                    onChange={(e) => setFormData({ ...formData, paymentDate: e.target.value })}
                                 />
                             </div>
                             <div>
@@ -177,8 +177,8 @@ export default function CustomerReceiptsPage() {
                                 <select
                                     required
                                     className="w-full px-3 py-2 border border-slate-300 rounded-lg"
-                                    value={formData.paymentMethod}
-                                    onChange={(e) => setFormData({ ...formData, paymentMethod: e.target.value as any })}
+                                    value={formData.paymentMode}
+                                    onChange={(e) => setFormData({ ...formData, paymentMode: e.target.value as any })}
                                 >
                                     <option value="CASH">Cash</option>
                                     <option value="BANK">Bank Transfer</option>
@@ -307,19 +307,18 @@ export default function CustomerReceiptsPage() {
                                             {receipt.receiptNo}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-slate-600">
-                                            {new Date(receipt.receiptDate).toLocaleDateString()}
+                                            {receipt.paymentDate}
                                         </td>
                                         <td className="px-6 py-4 text-sm text-slate-900">{receipt.customerName}</td>
-                                        <td className="px-6 py-4 text-sm text-slate-600">{receipt.paymentMethod}</td>
+                                        <td className="px-6 py-4 text-sm text-slate-600">{receipt.paymentMode}</td>
                                         <td className="px-6 py-4 text-sm text-right text-slate-900">
                                             ${receipt.amount.toFixed(2)}
                                         </td>
                                         <td className="px-6 py-4">
-                                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                                                receipt.isPosted
-                                                    ? "bg-green-100 text-green-700"
-                                                    : "bg-yellow-100 text-yellow-700"
-                                            }`}>
+                                            <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${receipt.isPosted
+                                                ? "bg-green-100 text-green-700"
+                                                : "bg-yellow-100 text-yellow-700"
+                                                }`}>
                                                 {receipt.isPosted ? "Posted" : "Draft"}
                                             </span>
                                         </td>

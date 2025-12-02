@@ -7,7 +7,7 @@ import { CustomerService, Customer } from "@/lib/services/CustomerService";
 import { SalesInvoiceService, SalesInvoice } from "@/lib/services/SalesInvoiceService";
 import { toast } from "@/lib/stores/useToast";
 import CurrencyAmount from "@/components/CurrencyAmount";
-import { Plus, CheckCircle, XCircle, Package, DollarSign, Truck, MoreVertical, Eye, Edit, Trash2, FileText } from "lucide-react";
+import { Plus, CheckCircle, XCircle, Package, DollarSign, Truck, MoreVertical, Eye, Edit, Trash2, FileText, Clock } from "lucide-react";
 import Link from "next/link";
 import { OrderDetailsModal, PaymentModal, DeliveryModal } from "./modals";
 
@@ -86,6 +86,8 @@ export default function SalesOrdersPage() {
                 }),
                 remarks,
                 createdBy: "system",
+                currency: "USD",
+                exchangeRate: 1.0,
             };
 
             const newOrder = await SalesOrderService.createSalesOrder(orderData);

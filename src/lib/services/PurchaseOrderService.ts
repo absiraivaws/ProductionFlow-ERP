@@ -194,7 +194,7 @@ export const PurchaseOrderService = {
             poNo: po.poNo,
             supplierId: po.supplierId,
             supplierName: po.supplierName || "",
-            items: po.lines.map(line => ({
+            items: po.lines.map((line: any) => ({
                 itemId: line.itemId,
                 itemName: line.itemName,
                 qty: line.qty - line.receivedQty, // Remaining qty

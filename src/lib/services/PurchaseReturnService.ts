@@ -202,7 +202,7 @@ export const PurchaseReturnService = {
 
         // Update stock ledger (return stock out)
         for (const line of purchaseReturn.lines) {
-            await StockLedgerService.createStockEntry({
+            await StockLedgerService.createEntry({
                 itemId: line.itemId,
                 locationId: line.locationId,
                 qty: -line.qty, // Negative for return

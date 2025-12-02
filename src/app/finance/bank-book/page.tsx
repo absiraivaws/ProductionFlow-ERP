@@ -39,7 +39,7 @@ export default function BankBookPage() {
                 description: j.description,
                 debit: e.debit,
                 credit: e.credit,
-                journalNo: j.journalNo,
+                journalNo: j.voucherNo,
             }))
     ).sort((a, b) => a.date.localeCompare(b.date));
 

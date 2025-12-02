@@ -1,6 +1,8 @@
 // Modal Components for Sales Orders
 
+import { useState } from "react";
 import { X } from "lucide-react";
+import { SalesOrder } from "@/lib/services/SalesOrderService";
 
 interface OrderDetailsModalProps {
     order: SalesOrder;
@@ -48,9 +50,9 @@ function OrderDetailsModal({ order, onClose }: OrderDetailsModalProps) {
                             <div>
                                 <span className="text-slate-500">Status:</span>
                                 <span className={`ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${order.status === "CONFIRMED" ? "bg-blue-100 text-blue-700" :
-                                        order.status === "DELIVERED" ? "bg-green-100 text-green-700" :
-                                            order.status === "CANCELLED" ? "bg-red-100 text-red-700" :
-                                                "bg-slate-100 text-slate-700"
+                                    order.status === "DELIVERED" ? "bg-green-100 text-green-700" :
+                                        order.status === "CANCELLED" ? "bg-red-100 text-red-700" :
+                                            "bg-slate-100 text-slate-700"
                                     }`}>
                                     {order.status}
                                 </span>
@@ -58,8 +60,8 @@ function OrderDetailsModal({ order, onClose }: OrderDetailsModalProps) {
                             <div>
                                 <span className="text-slate-500">Payment Status:</span>
                                 <span className={`ml-2 inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${order.paymentStatus === "PAID" ? "bg-green-100 text-green-700" :
-                                        order.paymentStatus === "PARTIAL" ? "bg-yellow-100 text-yellow-700" :
-                                            "bg-slate-100 text-slate-700"
+                                    order.paymentStatus === "PARTIAL" ? "bg-yellow-100 text-yellow-700" :
+                                        "bg-slate-100 text-slate-700"
                                     }`}>
                                     {order.paymentStatus}
                                 </span>
