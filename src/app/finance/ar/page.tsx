@@ -22,7 +22,7 @@ export default function AccountsReceivablePage() {
         setLoading(true);
         const [invoicesData, customersData] = await Promise.all([
             SalesInvoiceService.getSalesInvoices(),
-            CustomerService.getCustomers(true),
+            CustomerService.getCustomers(),
         ]);
         setInvoices(invoicesData);
         setCustomers(customersData);
@@ -144,8 +144,8 @@ export default function AccountsReceivablePage() {
                                     <td className="px-6 py-4 font-semibold text-amber-600">${invoice.balanceAmount.toFixed(2)}</td>
                                     <td className="px-6 py-4">
                                         <span className={`px-2 py-1 rounded text-xs font-medium ${invoice.status === "PAID" ? "bg-green-100 text-green-700" :
-                                                invoice.status === "PARTLY_PAID" ? "bg-amber-100 text-amber-700" :
-                                                    "bg-red-100 text-red-700"
+                                            invoice.status === "PARTLY_PAID" ? "bg-amber-100 text-amber-700" :
+                                                "bg-red-100 text-red-700"
                                             }`}>
                                             {invoice.status}
                                         </span>
